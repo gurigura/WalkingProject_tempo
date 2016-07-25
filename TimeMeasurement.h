@@ -10,7 +10,8 @@ class TimeGet
 {
 private:
 	std::chrono::system_clock::time_point	start,end;//時間取得保存先
-	double	init;//rasPi時間"謎"初期値格納
+	double	init;//rasPi時間"謎"初期値格納  稀にメモリ値がコンストラクタの際に混入する
+	
 	float	time;//一歩の時間差
 	
 public:

@@ -1,9 +1,8 @@
 //時間計測
 
 #include "TimeMeasurement.h"
-#include <iostream>
 #include <thread>
-#include <chrono>
+#include <numeric>	//平均値を出すのに使用
 
 //初期値
 TimeGet::TimeGet(){
@@ -21,21 +20,25 @@ void TimeGet::TimeUpdate()
 	time -= init; // 稀に現在時刻がメモリ位置を足した数値になるため、それの回避、様子を見て外す
 	timeHanger.push_back(time);
 			
-	std::cout << "今押したステップ間隔  ::  " << time << std::endl;
+	std::cout << "今押したステップ間隔  ::  " << time / 1000 << "秒" << std::endl;
 	start = std::chrono::system_clock::now();
 	return;
 }
 
-
-
 ///ターン終了時にBPMを算出する 引数:第1.BPM算出間隔秒数
 void  TimeGet::BpmCompute(int	sec, bool& argFlag)
 {
-	float	argBpm	=	0.0;
+	float	argBpm	=	0;
 	while(argFlag){
-		int	steps	=	timeHanger.size(); //1ターンの歩数
-		argBpm	=	(60/sec) * steps; //BPM算出間隔秒数*1ターンの歩数
+
+//ここから変後部
+		float	stepAvgTime	=	std::accumulate(timeHanger.begin(), timeHanger.end(), 0.0) / timeHanger.size(); //1ターンの歩数
+		
+//		argBpm	=	(60/sec) * steps; //BPM算出間隔秒数*1ターンの歩数
+			argBpm	=	60/(stepAvgTime/1000); //BPM算出間隔秒数*1ターンの歩数
 		bpm = (int)argBpm;	//算出したBPMを代入
+		std::cout << bpm << "Check"<< stepAvgTime << std::endl;
+//	ここまで変後部
 		timeHanger.erase(timeHanger.begin(),timeHanger.end());	//要素全削除
 		std::this_thread::sleep_for(std::chrono::seconds(sec));
 	 }

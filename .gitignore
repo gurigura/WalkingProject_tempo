@@ -1,0 +1,6 @@
+# .o を無視
+*.o
+
+# mysamplを無視
+*mysample
+
