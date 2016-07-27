@@ -1,15 +1,9 @@
 
-
-
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "spWav.h"
-
 
 /*
  *wavデータ書き込み

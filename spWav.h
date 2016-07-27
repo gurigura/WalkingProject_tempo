@@ -1,9 +1,4 @@
 
-
-
-
-
-
 #ifndef _SPWAV_HEADER_
 
 #define _SPWAV_HEADER_
